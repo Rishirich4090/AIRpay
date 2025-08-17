@@ -24,22 +24,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { RealTimeDataProvider } from "@/contexts/RealTimeDataContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Profile from "./pages/Profile";
-import MerchantManagement from "./pages/MerchantManagement";
-import BankList from "./pages/BankList";
-import WalletList from "./pages/WalletList";
-import UpdatePGLimitPolicy from "./pages/UpdatePGLimitPolicy";
-import TransactionUpdate from "./pages/TransactionUpdate";
-import PGManagement from "./pages/PGManagement";
-import TransactionReport from "./pages/TransactionReport";
-import DownloadReport from "./pages/DownloadReport";
-import NotFound from "./pages/NotFound";
-import Placeholder from "./pages/Placeholder";
+import React, { Suspense } from "react";
+const Index = React.lazy(() => import("./pages/Index"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Signup = React.lazy(() => import("./pages/Signup"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const MerchantManagement = React.lazy(() => import("./pages/MerchantManagement"));
+const BankList = React.lazy(() => import("./pages/BankList"));
+const WalletList = React.lazy(() => import("./pages/WalletList"));
+const UpdatePGLimitPolicy = React.lazy(() => import("./pages/UpdatePGLimitPolicy"));
+const TransactionUpdate = React.lazy(() => import("./pages/TransactionUpdate"));
+const PGManagement = React.lazy(() => import("./pages/PGManagement"));
+const TransactionReport = React.lazy(() => import("./pages/TransactionReport"));
+const DownloadReport = React.lazy(() => import("./pages/DownloadReport"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+const Placeholder = React.lazy(() => import("./pages/Placeholder"));
 
 const queryClient = new QueryClient();
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -49,66 +51,68 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                {/* Public routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
-              {/* Protected routes */}
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Index />
-                </ProtectedRoute>
-              } />
-              <Route path="/profile" element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } />
-              <Route path="/merchant-management" element={
-                <ProtectedRoute>
-                  <MerchantManagement />
-                </ProtectedRoute>
-              } />
-              <Route path="/bank-list" element={
-                <ProtectedRoute>
-                  <BankList />
-                </ProtectedRoute>
-              } />
-              <Route path="/wallet-list" element={
-                <ProtectedRoute>
-                  <WalletList />
-                </ProtectedRoute>
-              } />
-              <Route path="/update-pg-limit-policy" element={
-                <ProtectedRoute>
-                  <UpdatePGLimitPolicy />
-                </ProtectedRoute>
-              } />
-              <Route path="/transaction-update" element={
-                <ProtectedRoute>
-                  <TransactionUpdate />
-                </ProtectedRoute>
-              } />
-              <Route path="/pg-management" element={
-                <ProtectedRoute>
-                  <PGManagement />
-                </ProtectedRoute>
-              } />
-              <Route path="/transaction-report" element={
-                <ProtectedRoute>
-                  <TransactionReport />
-                </ProtectedRoute>
-              } />
-              <Route path="/download-report" element={
-                <ProtectedRoute>
-                  <DownloadReport />
-                </ProtectedRoute>
-              } />
+                {/* Protected routes */}
+                <Route path="/" element={
+                  <ProtectedRoute>
+                    <Index />
+                  </ProtectedRoute>
+                } />
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/merchant-management" element={
+                  <ProtectedRoute>
+                    <MerchantManagement />
+                  </ProtectedRoute>
+                } />
+                <Route path="/bank-list" element={
+                  <ProtectedRoute>
+                    <BankList />
+                  </ProtectedRoute>
+                } />
+                <Route path="/wallet-list" element={
+                  <ProtectedRoute>
+                    <WalletList />
+                  </ProtectedRoute>
+                } />
+                <Route path="/update-pg-limit-policy" element={
+                  <ProtectedRoute>
+                    <UpdatePGLimitPolicy />
+                  </ProtectedRoute>
+                } />
+                <Route path="/transaction-update" element={
+                  <ProtectedRoute>
+                    <TransactionUpdate />
+                  </ProtectedRoute>
+                } />
+                <Route path="/pg-management" element={
+                  <ProtectedRoute>
+                    <PGManagement />
+                  </ProtectedRoute>
+                } />
+                <Route path="/transaction-report" element={
+                  <ProtectedRoute>
+                    <TransactionReport />
+                  </ProtectedRoute>
+                } />
+                <Route path="/download-report" element={
+                  <ProtectedRoute>
+                    <DownloadReport />
+                  </ProtectedRoute>
+                } />
 
-              {/* Catch all */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                {/* Catch all */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </RealTimeDataProvider>
       </AuthProvider>
